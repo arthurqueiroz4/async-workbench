@@ -73,7 +73,7 @@ public class Workbench
 
         var tasks = new List<Task<int>>
         {
-            TaskExpensive.With2S(sw), TaskExpensive.With5S(sw), TaskExpensive.With10S(sw)
+            TaskExpensive.With10S(sw), TaskExpensive.With2S(sw), TaskExpensive.With5S(sw), TaskExpensive.With10S(sw)
         };
 
         while (tasks.Count > 0)
@@ -82,6 +82,26 @@ public class Workbench
             tasks.Remove(completedTask);
             
             Console.WriteLine($"Task completed in {completedTask.IsCompleted} at {sw.Elapsed} returning {completedTask.Result}");
+        }
+
+        sw.Stop();
+        Console.WriteLine($"ParallelWithWhenAny: {sw.Elapsed}");
+    }
+
+    public async Task SerialWithForeachWait()
+    {
+        var sw = new Stopwatch();
+        sw.Start();
+
+        var tasks = new List<Task<int>>
+        {
+            TaskExpensive.With10S(sw), TaskExpensive.With2S(sw), TaskExpensive.With5S(sw), TaskExpensive.With10S(sw)
+        };
+
+        foreach (var task in tasks)
+        {
+            var result = await task;
+            Console.WriteLine($"Task completed in {task.IsCompleted} at {sw.Elapsed} returning {result}");
         }
 
         sw.Stop();

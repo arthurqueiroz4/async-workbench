@@ -15,3 +15,7 @@ await wb.ParallelWithWaitAll();
 Console.WriteLine();
 
 await wb.ParallelWithWhenAny();
+
+Console.WriteLine();
+
+await wb.SerialWithForeachWait();
