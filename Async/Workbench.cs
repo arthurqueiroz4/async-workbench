@@ -66,6 +66,9 @@ public class Workbench
         return Task.CompletedTask;
     }
     
+    // Execute in parallel
+    // I can take and process task result as soon as task finished
+    // This way, with tasks which have high return time variation it very well works
     public async Task ParallelWithWhenAny()
     {
         var sw = new Stopwatch();
@@ -88,7 +91,11 @@ public class Workbench
         Console.WriteLine($"ParallelWithWhenAny: {sw.Elapsed}");
     }
 
-    public async Task SerialWithForeachWait()
+    // Execute in parallel
+    // This below approach is bad when we have high return time variation as it's showed in method
+    // How a list is serial, when we scroll through a list with 'foreach', it will wait the first. What if the first take 10 minutes and the second is a task that will resolve in 2 seconds??
+    // This problem is common in OS that are not preemptive. Using 'WhenAny' we increase the throughput.  
+    public async Task ParallelWithForeachWait()
     {
         var sw = new Stopwatch();
         sw.Start();

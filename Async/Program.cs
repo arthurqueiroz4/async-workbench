@@ -18,4 +18,4 @@ await wb.ParallelWithWhenAny();
 
 Console.WriteLine();
 
-await wb.SerialWithForeachWait();
+await wb.ParallelWithForeachWait();
